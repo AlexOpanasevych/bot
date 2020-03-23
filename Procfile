@@ -1,1 +1,1 @@
-worker: python ebloid_bot.py
+worker: python ebloid_bot.py $PORT
