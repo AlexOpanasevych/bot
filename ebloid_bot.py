@@ -1,8 +1,9 @@
 import telebot as tbot
 import random as rm
+import os
 from telebot import types
 
-TOKEN = '1122130345:AAHVhkGhh_hs8BrllCiFVjgA2uRXAeW_OOE'
+TOKEN = str(os.environ.get('BOT_TOKEN'))
 API_URL = 'https://api.telegram.org/bot%s/sendMessage' % TOKEN
 
 bot = tbot.TeleBot(TOKEN)
