@@ -1,7 +1,6 @@
 import telebot as tbot
 import random as rm
 import os
-from telebot import types
 
 TOKEN = os.environ['BOT_TOKEN']
 API_URL = 'https://api.telegram.org/bot%s/sendMessage' % TOKEN
@@ -11,8 +10,8 @@ bot = tbot.TeleBot(TOKEN)
 @bot.inline_handler(lambda query: query.query == 'text')
 def query_text(inline_query):
     try:
-        r = types.InlineQueryResultArticle('1', 'Result1', types.InputTextMessageContent('1'))
-        r2 = types.InlineQueryResultArticle('2', 'Result2', types.InputTextMessageContent('hi'))
+        r = tbot.types.InlineQueryResultArticle('1', 'Result1', tbot.types.InputTextMessageContent('1'))
+        r2 = tbot.types.InlineQueryResultArticle('2', 'Result2', tbot.types.InputTextMessageContent('hi'))
         bot.answer_inline_query(inline_query.id, (r, r2))
     except Exception as e:
         print(e)
@@ -21,7 +20,7 @@ def query_text(inline_query):
 @bot.inline_handler(lambda query: len(query.query) == 0)
 def default_query(inline_query):
     try:
-        r = types.InlineQueryResultArticle('1', 'Google', types.InputTextMessageContent('google'), url='https://google.com', hide_url=True)
+        r = tbot.types.InlineQueryResultArticle('1', 'Google', tbot.types.InputTextMessageContent('google'), url='https://google.com', hide_url=True)
         bot.answer_inline_query(inline_query.id, [r])
     except Exception as e:
         print(e)
