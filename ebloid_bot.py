@@ -41,6 +41,20 @@ def start_msg3(message):
     print(members_count)
     bot.send_message(message.chat.id, 'developing...')
 
+@bot.message_handler(commands=['register'])
+def register(message):
+    if message.from_user.username not in list_of_people:
+        list_of_people.append(message.from_user.username)
+        bot.send_message(message.chat.id, "Successfully added user @" + message.from_user.username)
+
+@bot.message_handler(content_types=['text'])
+def random_shots(message):
+    drinks = ["горілка", "Beer", "Whiskey", "Samogon", "Wine", "Champagne"]
+    drink_after = ['пивом', 'водою']
+    if(message.text.lower() in drinks):
+        for human in list_of_people:
+            bot.send_message(message.chat.id, '@' + human + " п'є " + str(rm.randint(1, 3)) + ' стопки ' + message.text.lower() + ' і запиває ' + drink_after[rm.randint(0, len(drink_after) - 1)])
+    
 
 @bot.message_handler(content_types=['text'])
 def answer(message):
@@ -59,22 +73,5 @@ def answer2(message):
     bot.reply_to(message, 'знов записуєш свої ригачки')
 
 list_of_people = []
-
-@bot.message_handler(commands=['register'])
-def register(message):
-    print(message['from'].username)
-    if message['from'].username not in list_of_people:
-        list_of_people.append(message['from'].username)
-
-@bot.message_handler(content_types=['text'])
-def random_shots(message):
-    drinks = ["горілка", "Beer", "Whiskey", "Samogon", "Wine", "Champagne"]
-    drink_after = ['пивом', 'водою']
-    if(message.text in drinks):
-        for human in list_of_people:
-            bot.send_message(message.chat.id, human + " п'є " + rm.randint(1, 3) + 'стопки' + message + 'і запиває ' + drink_after[rm.randint(0, len(drink_after))])
-    
-
-
 
 bot.polling(True)
