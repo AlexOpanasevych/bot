@@ -62,8 +62,8 @@ list_of_people = []
 
 @bot.message_handler(commands=['register'])
 def register(message):
-    print((message['from'].username)
-    if(message['from'].username not in list_of_people):
+    print(message['from'].username)
+    if message['from'].username not in list_of_people:
         list_of_people.append(message['from'].username)
 
 @bot.message_handler(content_types=['text'])
