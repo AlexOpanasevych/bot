@@ -69,7 +69,7 @@ def register(message):
 def random_shots(message):
     drinks = ["горілка", "Beer", "Whiskey", "Samogon", "Wine", "Champagne"]
     drink_after = ['пивом', 'водою']
-    if(message in drinks):
+    if(message.text in drinks):
         for human in list_of_people:
             bot.send_message(message.chat.id, human + " п'є " + rm.randint(1, 3) + 'стопки' + message + 'і запиває ' + drink_after[rm.randint(0, len(drink_after))])
     
