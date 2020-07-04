@@ -28,15 +28,15 @@ def default_query(inline_query):
 
 
 @bot.message_handler(commands=['start'])
-def start_msg(message):
+def start_msg1(message):
     bot.send_message(message.chat.id, "hello bitch")
 
 @bot.message_handler(commands=['help'])
-def start_msg(message):
+def start_msg2(message):
     bot.send_message(message.chat.id, "/who - who dies from covid-19 today?\n")
 
 @bot.message_handler(commands=['who'])
-def start_msg(message):
+def start_msg3(message):
     members_count = bot.get_chat_members_count(message.chat.id)
     print(members_count)
     bot.send_message(message.chat.id, 'developing...')
@@ -46,21 +46,6 @@ def start_msg(message):
 def answer(message):
     if message.text.lower() == 'ти уйобище':
         bot.send_message(message.chat.id, 'мамка твоя уйобище')
-    '''if message.text.lower() == 'гендзюцу':
-        with open('papi4_dota/gendzhycy.wav', 'rb') as f:
-            bot.send_voice(message.chat.id, f, reply_to_message_id=message.chat.id)
-    if message.text.lower() == 'на':
-        with open('papi4_dota/HAAAAAA.wav', 'rb') as f:
-            bot.send_voice(message.chat.id, f, reply_to_message_id=message.chat.id)
-    if message.text.lower() == 'резать':
-        with open('papi4_dota/budu rezat\'.wav', 'rb') as f:
-            bot.send_voice(message.chat.id, f, reply_to_message_id=message.chat.id)
-    if message.text.lower() == 'мусор':
-        with open('papi4_dota/faking tresh.wav', 'rb') as f:
-            bot.send_voice(message.chat.id, f, reply_to_message_id=message.chat.id)
-    if message.text.lower() == 'соль':
-        with open('papi4_dota/V SOLYANOGO.wav', 'rb') as f:
-            bot.send_voice(message.chat.id, f, reply_to_message_id=message.chat.id)'''
     if message.text.lower() == 'бондар':
         with open('TY SHO.ogg', 'rb') as f:
             bot.send_voice(message.chat.id, f, reply_to_message_id=message.chat.id)
@@ -70,10 +55,24 @@ def answer(message):
         bot.send_message(message.chat.id, 'отсоси у тракториста')
 
 @bot.message_handler(content_types=['voice'])
-def answer(message):
+def answer2(message):
     bot.reply_to(message, 'знов записуєш свої ригачки')
 
+list_of_people = []
 
+@bot.message_handler(commands=['register'])
+def register(message):
+    if(message['from'].username not in list_of_people):
+        list_of_people.append(message['from'].username)
+
+@bot.message_handler(content_types=['text'])
+def random_shots(message):
+    drinks = ["горілка", "Beer", "Whiskey", "Samogon", "Wine", "Champagne"]
+    drink_after = ['пивом', 'водою']
+    if(message in drinks):
+        for human in list_of_people:
+            bot.send_message(message.chat.id, human + " п'є " + rm.randint(1, 3) + 'стопки' + message + 'і запиває ' + drink_after[rm.randint(0, len(drink_after))])
+    
 
 
 
