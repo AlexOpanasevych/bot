@@ -1,12 +1,16 @@
 import telebot as tbot
 import random as rm
 import os
+import sqlite3
 from telebot import types
 
-TOKEN = os.environ['BOT_TOKEN']
+TOKEN = '1122130345:AAHVhkGhh_hs8BrllCiFVjgA2uRXAeW_OOE' # os.environ['BOT_TOKEN']
 API_URL = 'https://api.telegram.org/bot%s/sendMessage' % TOKEN
 
 bot = tbot.TeleBot(TOKEN)
+# conn = sqlite3.connect('users.db')
+# c = conn.cursor()
+# c.execute("INSERT INTO user VALUES (?)")
 
 @bot.inline_handler(lambda query: query.query == 'text')
 def query_text(inline_query):
@@ -45,19 +49,32 @@ def start_msg3(message):
 def register(message):
     if message.from_user.username not in list_of_people:
         list_of_people.append(message.from_user.username)
-        bot.send_message(message.chat.id, "Successfully added user @" + message.from_user.username)
+        bot.send_message(message.chat.id, "Successfully added user @" + str(message.from_user.username))
 
 @bot.message_handler(content_types=['text'])
 def random_shots(message):
-    drinks = ["горілка", "Beer", "Whiskey", "Samogon", "Wine", "Champagne"]
-    drink_after = ['пивом', 'водою']
+    drinks = ["горілка", "пиво", "віскі", "самогон", "вино", "шампанське"]
+    cocktails = []
+    drink_after = ['пивом', 'водою', 'ревом', 'вином', 'не запиває']
     if(message.text.lower() in drinks):
-        for human in list_of_people:
-            bot.send_message(message.chat.id, '@' + human + " п'є " + str(rm.randint(1, 3)) + ' стопки ' + message.text.lower() + ' і запиває ' + drink_after[rm.randint(0, len(drink_after) - 1)])
-    
+        username_or_first_name = '@' + message.from_user.username if message.from_user.username != None else message.from_user.first_name
+        
+        drinks_or_not = [" п'є ", ' пропускає '][rm.randint(0, 1)]
 
-@bot.message_handler(content_types=['text'])
-def answer(message):
+        sentence = ""
+        if drinks_or_not != ' пропускає ':
+            count_of_stopkas = rm.randint(1, 3)
+
+            definition = ' стопку ' if count_of_stopkas == 1 else ' стопки ' if count_of_stopkas in range(2, 5) else ' стопок '
+
+            drink = message.text.lower()
+            drink = drink[:len(drink) - 1] + 'и' if drink == 'горілка' else drink[:len(drink) - 1] + 'а' if drink == 'пиво' or drink == 'вино' else drink if drink == 'віскі' else drink + 'у' if drink == 'самогон' else drink[:len(drink) - 1] + 'ого' if drink == 'шампанське' else ''
+            drink_after_idx = rm.randint(0, len(drink_after) - 1)
+            result_drink_after = (' і запиває ' + drink_after[drink_after_idx]) if drink_after_idx < len(drink_after) - 1 else " і не запиває "
+            
+            sentence += str(count_of_stopkas) + definition + drink +result_drink_after
+
+        bot.send_message(message.chat.id, username_or_first_name + drinks_or_not + sentence)
     if message.text.lower() == 'ти уйобище':
         bot.send_message(message.chat.id, 'мамка твоя уйобище')
     if message.text.lower() == 'бондар':
@@ -68,9 +85,11 @@ def answer(message):
     if message.text == '300' or message.text.lower() == 'триста':
         bot.send_message(message.chat.id, 'отсоси у тракториста')
 
-@bot.message_handler(content_types=['voice'])
-def answer2(message):
-    bot.reply_to(message, 'знов записуєш свої ригачки')
+    
+
+# @bot.message_handler(content_types=['voice'])
+# def answer2(message):
+#     bot.reply_to(message, 'знов записуєш свої ригачки')
 
 list_of_people = []
 
