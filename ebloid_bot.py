@@ -63,14 +63,25 @@ def random_shots(message):
 
         sentence = ""
         if drinks_or_not != ' пропускає ':
-            count_of_stopkas = rm.randint(1, 3)
-
-            definition = ' стопку ' if count_of_stopkas == 1 else ' стопки ' if count_of_stopkas in range(2, 5) else ' стопок '
+            percentage = rm.random()
+            if percentage < 1.0:
+                count_of_stopkas = 1
+            if percentage < 1.0 - 1.0/3.0:
+                count_of_stopkas = 2
+            if percentage < 1.0/3.0:
+                count_of_stopkas = 3
 
             drink = message.text.lower()
+            
+            definition = (' стопку ' if count_of_stopkas == 1 else ' стопки ' if count_of_stopkas in range(2, 5) else ' стопок ') if drink != 'пиво' else (' стакан ' if count_of_stopkas == 1 else ' стакана ')
+            
             drink = drink[:len(drink) - 1] + 'и' if drink == 'горілка' else drink[:len(drink) - 1] + 'а' if drink == 'пиво' or drink == 'вино' else drink if drink == 'віскі' else drink + 'у' if drink == 'самогон' else drink[:len(drink) - 1] + 'ого' if drink == 'шампанське' else ''
-            drink_after_idx = rm.randint(0, len(drink_after) - 1)
-            result_drink_after = (' і запиває ' + drink_after[drink_after_idx]) if drink_after_idx < len(drink_after) - 1 else " і не запиває "
+            
+            drink_after_idx = ""
+            result_drink_after = ''
+            if drink != 'пива':
+                drink_after_idx = rm.randint(0, len(drink_after) - 1)
+                result_drink_after = (' і запиває ' + drink_after[drink_after_idx]) if drink_after_idx < len(drink_after) - 1 else " і не запиває "
             
             sentence += str(count_of_stopkas) + definition + drink +result_drink_after
 
