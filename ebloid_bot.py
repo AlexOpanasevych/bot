@@ -4,7 +4,7 @@ import os
 import sqlite3
 from telebot import types
 
-TOKEN = '1122130345:AAHVhkGhh_hs8BrllCiFVjgA2uRXAeW_OOE' # os.environ['BOT_TOKEN']
+TOKEN = os.environ['BOT_TOKEN']
 API_URL = 'https://api.telegram.org/bot%s/sendMessage' % TOKEN
 
 bot = tbot.TeleBot(TOKEN)
